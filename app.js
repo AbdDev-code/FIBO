@@ -7,13 +7,17 @@ const path = require("path");
 const connectDB = require('./config/db');
 const swaggerUi = require('swagger-ui-express');
 const swaggerJsdoc = require('swagger-jsdoc');
-
+const http = require("http")
 const app = express();
-
+const server = http.createServer(app)
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors());
+app.use(cors({
+    origin: '*',  // Yoki kerakli domenni yozing, masalan: 'https://yourdomain.com'
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+  }));
 if (process.env.NODE_ENV === "developer") {
     app.use(morgan("dev"));
 }
@@ -70,7 +74,7 @@ app.use('/api/v1/pizza', require('./routes/pizza.routes'));
 
 // Start server
 const port = process.env.PORT || 3000;
-app.listen(port, () => {
+server.listen(port, () => {
     console.log(`Server running on port ${port}`.bgBlue);
     console.log(`Swagger docs available at http://localhost:${port}/api-docs`.bgCyan);
 });
