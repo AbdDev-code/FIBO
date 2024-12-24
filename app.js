@@ -22,12 +22,14 @@ if (process.env.NODE_ENV === "developer") {
     app.use(morgan("dev"));
 }
 
+
 // Connect DB
 connectDB();
 
 // Static files
 app.use('/public', express.static(path.join(__dirname, 'public')));
-
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
 // Swagger options
 const swaggerOptions = {
     definition: {
@@ -50,15 +52,12 @@ const swaggerOptions = {
         components: {
             securitySchemes: {
               bearerAuth: {
-                type: "http",
+                type: "https",
                 scheme: "bearer",
                 bearerFormat: "JWT",
               },
             },
           },
-          security: [
-            
-          ],
     },
     apis: ["./routes/*.js"], // Sizning routes fayllaringiz joylashgan papka
 };
@@ -76,5 +75,4 @@ app.use('/api/v1/pizza', require('./routes/pizza.routes'));
 const port = process.env.PORT || 3000;
 server.listen(port, () => {
     console.log(`Server running on port ${port}`.bgBlue);
-    console.log(`Swagger docs available at http://localhost:${port}/api-docs`.bgCyan);
 });
