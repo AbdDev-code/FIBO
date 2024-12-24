@@ -45,7 +45,7 @@ const swaggerOptions = {
         },
         servers: [
             {
-                url: "https://fibo-2.onrender.com/api/v1",
+                url: "https://fibo-3.onrender.com/api/v1",
                 description: "Development server",
             },
         ],
